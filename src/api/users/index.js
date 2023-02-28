@@ -27,11 +27,17 @@ authorsRouter.post("/", (req, res) => {
     updatedAt: new Date(),
     id: uniqid(),
   };
+  const authors = JSON.parse(fs.readFileSync(authorJSONPath));
 
-  const author = JSON.parse(fs.readFileSync(authorJSONPath));
-  author.push(newAuthor);
-  fs.writeFileSync(authorJSONPath, JSON.stringify(author));
-  res.status(201).send({ id: newAuthor.id });
+  const hasEmail = authors.some((author) => author.email == req.body.email);
+
+  if (hasEmail) {
+    res.status(400).send("Email already exists");
+  } else {
+    authors.push(newAuthor);
+    fs.writeFileSync(authorJSONPath, JSON.stringify(authors));
+    res.status(201).send({ id: newAuthor.id });
+  }
 });
 authorsRouter.get("/", (req, res) => {
   const fileContent = fs.readFileSync(authorJSONPath);
@@ -58,6 +64,12 @@ authorsRouter.delete("/:authorId", (req, res) => {
   const remainingAuthors = author.filter((a) => a.id !== req.params.authorId);
   fs.writeFileSync(authorJSONPath, JSON.stringify(remainingAuthors));
   res.status(204).send();
+});
+authorsRouter.post("/checkEmail", (req, res) => {
+  const authors = JSON.parse(fs.readFileSync(authorJSONPath));
+  const email = req.body.email;
+  const hasEmail = authors.some((author) => author.email == email);
+  res.send(hasEmail);
 });
 
 export default authorsRouter;
