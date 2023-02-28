@@ -5,9 +5,9 @@ import listEndpoints from "express-list-endpoints";
 const server = Express();
 const port = 3002;
 
-server.use("/authors", authorsRouter);
-
 server.use(Express.json());
+
+server.use("/authors", authorsRouter);
 
 server.listen(port, () => {
   console.table(listEndpoints(server));
