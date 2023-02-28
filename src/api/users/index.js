@@ -29,7 +29,7 @@ authorsRouter.post("/", (req, res) => {
   };
   const authors = JSON.parse(fs.readFileSync(authorJSONPath));
 
-  const hasEmail = authors.some((author) => author.email == req.body.email);
+  const hasEmail = authors.some((author) => author.email === req.body.email);
 
   if (hasEmail) {
     res.status(400).send("Email already exists");
@@ -68,7 +68,7 @@ authorsRouter.delete("/:authorId", (req, res) => {
 authorsRouter.post("/checkEmail", (req, res) => {
   const authors = JSON.parse(fs.readFileSync(authorJSONPath));
   const email = req.body.email;
-  const hasEmail = authors.some((author) => author.email == email);
+  const hasEmail = authors.some((author) => author.email === email);
   res.send(hasEmail);
 });
 
