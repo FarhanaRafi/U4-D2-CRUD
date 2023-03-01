@@ -47,9 +47,9 @@ blogsRouter.post(
 blogsRouter.get("/", (req, res, next) => {
   console.log("req query", req.query);
   const blogs = getBlogs();
-  if (req.query && req.query.category) {
+  if (req.query && req.query.title) {
     const filteredBlogs = blogs.filter(
-      (blog) => blog.category === req.query.category
+      (blog) => blog.title.toLowerCase() === req.query.title.toLowerCase()
     );
     res.send(filteredBlogs);
   } else {
