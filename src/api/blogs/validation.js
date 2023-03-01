@@ -20,6 +20,30 @@ const blogsSchema = {
       errorMessage: "Image is a mandatory and needs to be in string",
     },
   },
+  "readTime.value": {
+    in: ["body"],
+    isNumeric: {
+      errorMessage: "ReadTime.value is a mandatory and needs to be in string",
+    },
+  },
+  "readTime.unit": {
+    in: ["body"],
+    isString: {
+      errorMessage: "ReadTime.unit is a mandatory and needs to be in string",
+    },
+  },
+  "author.name": {
+    in: ["body"],
+    isString: {
+      errorMessage: "Author.name is a mandatory and needs to be in string",
+    },
+  },
+  "author.avatar": {
+    in: ["body"],
+    isString: {
+      errorMessage: "Author.avatar is a mandatory and needs to be in string",
+    },
+  },
   content: {
     in: ["body"],
     isString: {
