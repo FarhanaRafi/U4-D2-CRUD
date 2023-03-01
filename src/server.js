@@ -8,6 +8,7 @@ import {
   notfoundHandler,
   unauthorizedHandler,
 } from "./errorsHandlers.js";
+import cors from "cors";
 
 const server = Express();
 const port = 3002;
@@ -18,6 +19,7 @@ const loggerMiddleware = (req, res, next) => {
   );
   next();
 };
+server.use(cors());
 
 server.use(loggerMiddleware);
 server.use(Express.json());
