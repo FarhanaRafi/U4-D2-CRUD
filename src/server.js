@@ -2,6 +2,12 @@ import Express from "express";
 import authorsRouter from "./api/users/index.js";
 import listEndpoints from "express-list-endpoints";
 import blogsRouter from "./api/blogs/index.js";
+import {
+  badRequestHandler,
+  genericErrorHandler,
+  notfoundHandler,
+  unauthorizedHandler,
+} from "./errorsHandlers.js";
 
 const server = Express();
 const port = 3002;
@@ -18,6 +24,11 @@ server.use(Express.json());
 
 server.use("/authors", authorsRouter);
 server.use("/blogPosts", blogsRouter);
+
+server.use(badRequestHandler);
+server.use(unauthorizedHandler);
+server.use(notfoundHandler);
+server.use(genericErrorHandler);
 
 server.listen(port, () => {
   console.table(listEndpoints(server));
