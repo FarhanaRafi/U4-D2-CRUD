@@ -56,6 +56,12 @@ const blogsSchema = {
       errorMessage: "CreatedAt is a mandatory and needs to be in string",
     },
   },
+  title: {
+    in: ["query"],
+    isString: {
+      errorMessage: "Title is a mandatory in query and needs to be in string",
+    },
+  },
 };
 
 export const checkBlogSchema = checkSchema(blogsSchema);
