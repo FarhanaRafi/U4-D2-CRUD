@@ -5,7 +5,9 @@ import fs from "fs";
 import uniqid from "uniqid";
 import createHttpError from "http-errors";
 import { checkBlogSchema, triggerBadRequest } from "./validation.js";
-import { getBlogs, writeBlogs } from "../../lib/fs-tools.js";
+import { getBlogs, saveBlogCover, writeBlogs } from "../../lib/fs-tools.js";
+import multer from "multer";
+import { extname } from "path";
 
 const blogsRouter = Express.Router();
 
@@ -106,5 +108,34 @@ blogsRouter.delete("/:blogId", async (req, res, next) => {
     next(error);
   }
 });
+
+blogsRouter.post(
+  "/:blogId/uploadCover",
+  multer().single("cover"),
+  async (req, res, next) => {
+    try {
+      console.log(req.file, "req file");
+      console.log(req.body, "req body");
+      const originalFileExtension = extname(req.file.originalname);
+      const fileName = req.params.blogId + originalFileExtension;
+      await saveBlogCover(fileName, req.file.buffer);
+
+      const blogsArray = await getBlogs();
+      const index = blogsArray.findIndex(
+        (blog) => blog._id === req.params.blogId
+      );
+      const blogToUpdate = blogsArray[index];
+      const updatedBlog = {
+        ...blogToUpdate,
+        avatar: `http://localhost:3001/img/blogPosts/${fileName}`,
+      };
+      blogsArray[index] = updatedBlog;
+      await writeBlogs(blogsArray);
+      res.send({ message: "file uploaded" });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export default blogsRouter;

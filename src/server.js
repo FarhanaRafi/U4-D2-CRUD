@@ -9,6 +9,7 @@ import {
   unauthorizedHandler,
 } from "./errorsHandlers.js";
 import cors from "cors";
+// import filesRouter from "./api/files/index.js";
 
 const server = Express();
 const port = 3002;
@@ -26,6 +27,7 @@ server.use(Express.json());
 
 server.use("/authors", authorsRouter);
 server.use("/blogPosts", blogsRouter);
+// server.use("/files", filesRouter);
 
 server.use(badRequestHandler);
 server.use(unauthorizedHandler);

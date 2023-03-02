@@ -1,7 +1,6 @@
 import Express from "express";
-import fs from "fs";
-import { fileURLToPath } from "url";
-import { dirname, extname, join } from "path";
+
+import { extname } from "path";
 import uniqid from "uniqid";
 import multer from "multer";
 import { saveUserAvatars } from "../../lib/fs-tools.js";
@@ -107,18 +106,33 @@ authorsRouter.post("/checkEmail", async (req, res) => {
   res.send(hasEmail);
 });
 
-// authorsRouter.post(
-//   "/:authorId/uploadAvatar",
-//   multer().single("avatar"),
-//   async (req, res, next) => {
-//     // const authors = JSON.parse(fs.readFileSync(authorJSONPath));
-//     console.log(req.file, "req file");
-//     console.log(req.body, "req body");
-//     const originalFileExtension = extname(req.file);
-//     const fileName = req.params.authorId + originalFileExtension;
-//     await saveUserAvatars(fileName, req.file.buffer);
-//     res.send({ message: "file uploaded" });
-//   }
-// );
+authorsRouter.post(
+  "/:authorId/uploadAvatar",
+  multer().single("avatar"),
+  async (req, res, next) => {
+    try {
+      console.log(req.file, "req file");
+      console.log(req.body, "req body");
+      const originalFileExtension = extname(req.file.originalname);
+      const fileName = req.params.authorId + originalFileExtension;
+      await saveUserAvatars(fileName, req.file.buffer);
+
+      const authors = await getAuthors();
+      const index = authors.findIndex(
+        (author) => author.id === req.params.authorId
+      );
+      const authorToUpdate = authors[index];
+      const updatedAuthor = {
+        ...authorToUpdate,
+        avatar: `http://localhost:3001/img/authors/${fileName}`,
+      };
+      authors[index] = updatedAuthor;
+      await writeAuthors(authors);
+      res.send({ message: "file uploaded" });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export default authorsRouter;
