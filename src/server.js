@@ -9,10 +9,12 @@ import {
   unauthorizedHandler,
 } from "./errorsHandlers.js";
 import cors from "cors";
+import { join } from "path";
 // import filesRouter from "./api/files/index.js";
 
 const server = Express();
 const port = 3002;
+const publicFolderPath = join(process.cwd(), "./public");
 
 const loggerMiddleware = (req, res, next) => {
   console.log(
@@ -20,6 +22,7 @@ const loggerMiddleware = (req, res, next) => {
   );
   next();
 };
+server.use(Express.static(publicFolderPath));
 server.use(cors());
 
 server.use(loggerMiddleware);
