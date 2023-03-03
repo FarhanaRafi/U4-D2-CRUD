@@ -124,7 +124,7 @@ authorsRouter.post(
       const authorToUpdate = authors[index];
       const updatedAuthor = {
         ...authorToUpdate,
-        avatar: `http://localhost:3001/img/authors/${fileName}`,
+        avatar: `http://localhost:3002/img/authors/${fileName}`,
       };
       authors[index] = updatedAuthor;
       await writeAuthors(authors);

@@ -127,7 +127,7 @@ blogsRouter.post(
       const blogToUpdate = blogsArray[index];
       const updatedBlog = {
         ...blogToUpdate,
-        avatar: `http://localhost:3001/img/blogPosts/${fileName}`,
+        cover: `http://localhost:3002/img/blogPosts/${fileName}`,
       };
       blogsArray[index] = updatedBlog;
       await writeBlogs(blogsArray);
@@ -137,5 +137,47 @@ blogsRouter.post(
     }
   }
 );
+
+blogsRouter.post("/:blogId/comments", async (req, res, next) => {
+  try {
+    const newComment = {
+      ...req.body,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      _id: uniqid(),
+    };
+
+    const blogsArray = await getBlogs();
+    const index = blogsArray.findIndex(
+      (blog) => blog._id === req.params.blogId
+    );
+    if (index !== -1) {
+      const oldBlog = blogsArray[index];
+      const updatedComments = oldBlog.comments
+        ? [...oldBlog.comments, newComment]
+        : [newComment];
+      const updatedBlog = { ...oldBlog, comments: updatedComments };
+      blogsArray[index] = updatedBlog;
+      await writeBlogs(blogsArray);
+      res.status(201).send({ message: `Comment added ${newComment._id}` });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+blogsRouter.get("/:blogId/comments", async (req, res, next) => {
+  try {
+    const blogsArray = await getBlogs();
+    const blog = blogsArray.find((b) => b._id === req.params.blogId);
+    if (blog.comments) {
+      res.send(blog.comments);
+    } else {
+      res.send(`Blog with id ${req.params.blogId} has no comments`);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default blogsRouter;

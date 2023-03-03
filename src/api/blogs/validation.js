@@ -23,7 +23,7 @@ const blogsSchema = {
   "readTime.value": {
     in: ["body"],
     isNumeric: {
-      errorMessage: "ReadTime.value is a mandatory and needs to be in string",
+      errorMessage: "ReadTime.value is a mandatory and needs to be in number",
     },
   },
   "readTime.unit": {
