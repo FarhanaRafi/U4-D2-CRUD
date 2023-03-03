@@ -180,4 +180,21 @@ blogsRouter.get("/:blogId/comments", async (req, res, next) => {
   }
 });
 
+blogsRouter.delete("/:blogId/comments/:commentId", async (req, res, next) => {
+  try {
+    const blogsArray = await getBlogs();
+    const index = blogsArray.findIndex((b) => b._id === req.params.blogId);
+    const oldBlog = blogsArray[index];
+    const newComments = oldBlog.comments.filter(
+      (c) => c._id !== req.params.commentId
+    );
+    const newBlog = { ...oldBlog, comments: newComments };
+    blogsArray[index] = newBlog;
+    await writeBlogs(blogsArray);
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default blogsRouter;
