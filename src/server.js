@@ -28,7 +28,7 @@ const whitelist = [process.env.FE_DEV_URL, process.env.FE_PROD_URL];
 server.use(Express.static(publicFolderPath));
 server.use(
   cors({
-    object: (currentOrigin, corsNext) => {
+    origin: (currentOrigin, corsNext) => {
       if (!currentOrigin || whitelist.indexOf(currentOrigin) !== -1) {
         corsNext(null, true);
       } else {
