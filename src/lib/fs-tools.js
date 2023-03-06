@@ -9,7 +9,7 @@ const usersJSONPath = join(dataFolderPath, "users.json");
 const blogJSONPath = join(dataFolderPath, "blogs.json");
 const authorsPublicFolderPath = join(process.cwd(), "./public/img/authors");
 console.log(process.cwd(), "cwd");
-const blogsPublicFolderPath = join(process.cwd(), "./public/img/blogPosts");
+// const blogsPublicFolderPath = join(process.cwd(), "./public/img/blogPosts");
 
 export const getAuthors = () => readJSON(usersJSONPath);
 export const writeAuthors = (usersArray) =>
@@ -20,5 +20,5 @@ export const writeBlogs = (blogsArray) => writeJSON(blogJSONPath, blogsArray);
 export const saveUserAvatars = (fileName, fileContentAsBuffer) =>
   writeFile(join(authorsPublicFolderPath, fileName), fileContentAsBuffer);
 
-export const saveBlogCover = (fileName, fileContentAsBuffer) =>
-  writeFile(join(blogsPublicFolderPath, fileName), fileContentAsBuffer);
+// export const saveBlogCover = (fileName, fileContentAsBuffer) =>
+//   writeFile(join(blogsPublicFolderPath, fileName), fileContentAsBuffer);

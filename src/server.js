@@ -25,7 +25,6 @@ const loggerMiddleware = (req, res, next) => {
 };
 const whitelist = [process.env.FE_DEV_URL, process.env.FE_PROD_URL];
 
-server.use(Express.static(publicFolderPath));
 server.use(
   cors({
     origin: (currentOrigin, corsNext) => {
@@ -42,7 +41,7 @@ server.use(
     },
   })
 );
-
+server.use(Express.static(publicFolderPath));
 server.use(loggerMiddleware);
 server.use(Express.json());
 

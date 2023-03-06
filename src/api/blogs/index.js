@@ -5,9 +5,11 @@ import fs from "fs";
 import uniqid from "uniqid";
 import createHttpError from "http-errors";
 import { checkBlogSchema, triggerBadRequest } from "./validation.js";
-import { getBlogs, saveBlogCover, writeBlogs } from "../../lib/fs-tools.js";
+import { getBlogs, writeBlogs } from "../../lib/fs-tools.js";
 import multer from "multer";
-import { extname } from "path";
+// import { extname } from "path";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 const blogsRouter = Express.Router();
 
@@ -109,28 +111,40 @@ blogsRouter.delete("/:blogId", async (req, res, next) => {
   }
 });
 
+const cloudinaryUploader = multer({
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "Strive/blogCover",
+    },
+  }),
+}).single("cover");
+
 blogsRouter.post(
   "/:blogId/uploadCover",
-  multer().single("cover"),
+  cloudinaryUploader,
+  //   multer().single("cover"),
   async (req, res, next) => {
     try {
       console.log(req.file, "req file");
-      console.log(req.body, "req body");
-      const originalFileExtension = extname(req.file.originalname);
-      const fileName = req.params.blogId + originalFileExtension;
-      await saveBlogCover(fileName, req.file.buffer);
+      //   console.log(req.body, "req body");
+      //   const originalFileExtension = extname(req.file.originalname);
+      //   const fileName = req.params.blogId + originalFileExtension;
+      //   await saveBlogCover(fileName, req.file.buffer);
 
       const blogsArray = await getBlogs();
       const index = blogsArray.findIndex(
         (blog) => blog._id === req.params.blogId
       );
-      const blogToUpdate = blogsArray[index];
-      const updatedBlog = {
-        ...blogToUpdate,
-        cover: `http://localhost:3002/img/blogPosts/${fileName}`,
-      };
-      blogsArray[index] = updatedBlog;
-      await writeBlogs(blogsArray);
+      if (index !== -1) {
+        const blogToUpdate = blogsArray[index];
+        const updatedBlog = {
+          ...blogToUpdate,
+          cover: req.file.path,
+        };
+        blogsArray[index] = updatedBlog;
+        await writeBlogs(blogsArray);
+      }
       res.send({ message: "file uploaded" });
     } catch (error) {
       next(error);
