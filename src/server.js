@@ -10,10 +10,11 @@ import {
 } from "./errorsHandlers.js";
 import cors from "cors";
 import { join } from "path";
+import createHttpError from "http-errors";
 // import filesRouter from "./api/files/index.js";
 
 const server = Express();
-const port = 3002;
+const port = process.env.PORT;
 const publicFolderPath = join(process.cwd(), "./public");
 
 const loggerMiddleware = (req, res, next) => {
@@ -22,8 +23,25 @@ const loggerMiddleware = (req, res, next) => {
   );
   next();
 };
+const whitelist = [process.env.FE_DEV_URL, process.env.FE_PROD_URL];
+
 server.use(Express.static(publicFolderPath));
-server.use(cors());
+server.use(
+  cors({
+    object: (currentOrigin, corsNext) => {
+      if (!currentOrigin || whitelist.indexOf(currentOrigin) !== -1) {
+        corsNext(null, true);
+      } else {
+        corsNext(
+          createHttpError(
+            400,
+            `origin ${currentOrigin} is not in the whitelist`
+          )
+        );
+      }
+    },
+  })
+);
 
 server.use(loggerMiddleware);
 server.use(Express.json());
