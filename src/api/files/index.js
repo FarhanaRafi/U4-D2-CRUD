@@ -1,36 +1,25 @@
 // import Express from "express";
-// import multer from "multer";
-// import { saveUserAvatars } from "../../lib/fs-tools.js";
-// import { extname } from "path";
+// import { getPDFReadableStream } from "../../lib/pdf-tools.js";
+// import { pipeline } from "stream";
+// import { getBlogs } from "../../lib/fs-tools.js";
 
 // const filesRouter = Express.Router();
-// filesRouter.post(
-//   "/:authorId/uploadAvatar",
-//   multer().single("avatar"),
-//   async (req, res, next) => {
-//     try {
-//       console.log(req.file, "req file");
-//       console.log(req.body, "req body");
-//       const originalFileExtension = extname(req.file.originalname);
-//       const fileName = req.params.authorId + originalFileExtension;
-//       await saveUserAvatars(fileName, req.file.buffer);
 
-//       const authors = await getAuthors();
-//       const index = authors.findIndex(
-//         (author) => author.id === req.params.authorId
-//       );
-//       const authorToUpdate = authors[index];
-//       const updatedAuthor = {
-//         ...authorToUpdate,
-//         avatar: `http://localhost:3001/imag/authors/${fileName}`,
-//       };
-//       authors[index] = updatedAuthor;
-//       await writeAuthors(authors);
-//       res.send({ message: "file uploaded" });
-//     } catch (error) {
-//       next(error);
-//     }
+// filesRouter.get("/pdf", async (req, res, next) => {
+//   try {
+//     res.setHeader("Content-Disposition", "attachment; filename=blog.pdf");
+//     const blogsArray = await getBlogs();
+//     // const foundBlog = blogsArray.find((blog) => blog._id === req.params.blogId);
+//     const source = getPDFReadableStream(blogsArray[0]);
+//     const destination = res;
+//     pipeline(source, destination, (err) => {
+//       if (err) {
+//         console.log(err);
+//       }
+//     });
+//   } catch (error) {
+//     next(error);
 //   }
-// );
+// });
 
 // export default filesRouter;

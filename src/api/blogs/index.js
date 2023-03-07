@@ -10,6 +10,8 @@ import multer from "multer";
 // import { extname } from "path";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { getPDFReadableStream } from "../../lib/pdf-tools.js";
+import { pipeline } from "stream";
 
 const blogsRouter = Express.Router();
 
@@ -206,6 +208,23 @@ blogsRouter.delete("/:blogId/comments/:commentId", async (req, res, next) => {
     blogsArray[index] = newBlog;
     await writeBlogs(blogsArray);
     res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
+blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
+  try {
+    res.setHeader("Content-Disposition", "attachment; filename=blog.pdf");
+    const blogsArray = await getBlogs();
+    const foundBlog = blogsArray.find((blog) => blog._id === req.params.blogId);
+    const source = getPDFReadableStream(foundBlog);
+    const destination = res;
+    pipeline(source, destination, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
   } catch (error) {
     next(error);
   }
