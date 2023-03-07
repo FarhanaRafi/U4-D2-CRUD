@@ -218,7 +218,7 @@ blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
     res.setHeader("Content-Disposition", "attachment; filename=blog.pdf");
     const blogsArray = await getBlogs();
     const foundBlog = blogsArray.find((blog) => blog._id === req.params.blogId);
-    const source = getPDFReadableStream(foundBlog);
+    const source = await getPDFReadableStream(foundBlog);
     const destination = res;
     pipeline(source, destination, (err) => {
       if (err) {
