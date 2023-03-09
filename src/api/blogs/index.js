@@ -14,9 +14,15 @@ import multer from "multer";
 // import { extname } from "path";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { getPDFReadableStream } from "../../lib/pdf-tools.js";
+import {
+  asyncPDFGeneration,
+  getPDFReadableStream,
+} from "../../lib/pdf-tools.js";
 import { pipeline } from "stream";
-import { sendsRegistrationEmail } from "../../lib/email-tools.js";
+import {
+  sendPDFToEmail,
+  sendsRegistrationEmail,
+} from "../../lib/email-tools.js";
 
 const blogsRouter = Express.Router();
 
@@ -251,9 +257,24 @@ blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
 
 blogsRouter.post("/email", async (req, res, next) => {
   try {
+    // const blogsArray = await getBlogs();
+    // const foundBlog = blogsArray.find((blog) => blog._id === req.params.blogId);
     const email = req.body.author.email;
     await sendsRegistrationEmail(email);
     res.send({ message: "Email Send" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+blogsRouter.post("/:blogId/email", async (req, res, next) => {
+  try {
+    const blogsArray = await getBlogs();
+    const foundBlog = blogsArray.find((blog) => blog._id === req.params.blogId);
+    const postPdf = await asyncPDFGeneration(foundBlog);
+    const email = req.body.author.email;
+    await sendPDFToEmail(email);
+    res.send({ message: "Email Send with pdf" });
   } catch (error) {
     next(error);
   }

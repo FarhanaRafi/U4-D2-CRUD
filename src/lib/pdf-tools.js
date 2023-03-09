@@ -63,7 +63,7 @@ export const getPDFReadableStream = async (blogsArray) => {
 };
 
 export const asyncPDFGeneration = async (blogsArray) => {
-  const source = getPDFReadableStream(blogsArray);
+  const source = await getPDFReadableStream(blogsArray);
   const destination = getPDFWritableStream("test.pdf");
 
   const promiseBasedPipeline = promisify(pipeline);
