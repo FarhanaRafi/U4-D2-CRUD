@@ -5,7 +5,8 @@
     "readTime": { "value": 35, "unit": "minute" },
     "author": {
       "name": "JON DUCKETT",
-      "avatar": "https://ui-avatars.com/api/?name=Jon+Duckett"
+      "avatar": "https://ui-avatars.com/api/?name=Jon+Duckett",
+      "email": "hana0795@web.de"
     },
     "content": "HTML",
     "_id": "c1muqc6lepp5de4",
@@ -34,7 +35,8 @@
     "readTime": { "value": 50, "unit": "minute" },
     "author": {
       "name": "Kevin Pasquali",
-      "avatar": "https://ui-avatars.com/api/?name=Kevin+Pasquali"
+      "avatar": "https://ui-avatars.com/api/?name=Kevin+Pasquali",
+      "email": "hana0795@web.de"
     },
     "content": "node js",
     "_id": "c1muqjgleppl5e3",
@@ -57,7 +59,8 @@
     "readTime": { "value": 50, "unit": "minute" },
     "author": {
       "name": "JON DUCKETT",
-      "avatar": "https://ui-avatars.com/api/?name=Jon+Duckett"
+      "avatar": "https://ui-avatars.com/api/?name=Jon+Duckett",
+      "email": "hana0795@web.de"
     },
     "content": "JavaScript",
     "_id": "c1muqu7leppv8bn",
@@ -79,7 +82,8 @@
     "readTime": { "value": 50, "unit": "minute" },
     "author": {
       "name": "Kevin John",
-      "avatar": "https://ui-avatars.com/api/?name=Kevin+John"
+      "avatar": "https://ui-avatars.com/api/?name=Kevin+John",
+      "email": "hana0795@web.de"
     },
     "content": "basics",
     "_id": "c1mu116uler3sx3l",
@@ -95,7 +99,8 @@
     "readTime": { "value": "19", "unit": "minute" },
     "author": {
       "name": "FARHANA RAFI",
-      "avatar": "https://ui-avatars.com/api/?name=Farhana+Rafi"
+      "avatar": "https://ui-avatars.com/api/?name=Farhana+Rafi",
+      "email": "hana0795@web.de"
     },
     "comments": [],
     "content": "<p>wdfsdgfhgfd</p>",
@@ -110,7 +115,8 @@
     "readTime": { "value": "12", "unit": "minute" },
     "author": {
       "name": "FARHANA RAFI",
-      "avatar": "https://ui-avatars.com/api/?name=Farhana+Rafi"
+      "avatar": "https://ui-avatars.com/api/?name=Farhana+Rafi",
+      "email": "hana0795@web.de"
     },
     "comments": [],
     "_id": "c1mu1cj1lev8xvhf",

@@ -16,7 +16,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { getPDFReadableStream } from "../../lib/pdf-tools.js";
 import { pipeline } from "stream";
-import { Transform } from "@json2csv/node";
+import { sendsRegistrationEmail } from "../../lib/email-tools.js";
 
 const blogsRouter = Express.Router();
 
@@ -235,15 +235,25 @@ blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
   }
 });
 
-blogsRouter.get("/:blogId/csv", (req, res, next) => {
+// blogsRouter.get("/:blogId/csv", (req, res, next) => {
+//   try {
+//     res.setHeader("Content-Disposition", "attachment; filename=blog.csv");
+//     const source = getBlogsJSONReadableStream();
+//     const transform = new Transform({ fields: ["_id", "title", "category"] });
+//     const destination = res;
+//     pipeline(source, transform, destination, (err) => {
+//       if (err) console.log(err);
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+blogsRouter.post("/email", async (req, res, next) => {
   try {
-    res.setHeader("Content-Disposition", "attachment; filename=blog.csv");
-    const source = getBlogsJSONReadableStream();
-    const transform = new Transform({ fields: ["_id", "title", "category"] });
-    const destination = res;
-    pipeline(source, transform, destination, (err) => {
-      if (err) console.log(err);
-    });
+    const email = req.body.author.email;
+    await sendsRegistrationEmail(email);
+    res.send({ message: "Email Send" });
   } catch (error) {
     next(error);
   }

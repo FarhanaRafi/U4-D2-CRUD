@@ -1,1 +1,32 @@
-[{"name":"Farhana","surname":"Rafi","email":"abcde@gmail.com","date of birth":"9-10-1999","avatar":"http://localhost:3002/img/authors/c1mukn2leoaq511.jpg","createdAt":"2023-02-28T13:40:02.676Z","updatedAt":"2023-02-28T16:30:24.414Z","id":"c1mukn2leoaq511"},{"name":"james","surname":"Doe","email":"ab@gmail.com","date of birth":"9-12-1994","avatar":"https://ui-avatars.com/api/?name=John+Doe","createdAt":"2023-02-28T13:46:31.768Z","updatedAt":"2023-02-28T13:46:31.768Z","id":"c1mukpbleoayh94"},{"name":"Joseph","surname":"Doe","email":"abcde@gmail.com","date of birth":"9-10-1999","avatar":"http://localhost:3002/img/authors/c1muldcleocfsi2.jpg","createdAt":"2023-02-28T14:27:59.114Z","updatedAt":"2023-02-28T16:28:16.979Z","id":"c1muldcleocfsi2"}]
+[
+  {
+    "name": "Farhana",
+    "surname": "Rafi",
+    "email": "abcde@gmail.com",
+    "date of birth": "9-10-1999",
+    "avatar": "http://localhost:3002/img/authors/c1mukn2leoaq511.jpg",
+    "createdAt": "2023-02-28T13:40:02.676Z",
+    "updatedAt": "2023-02-28T16:30:24.414Z",
+    "id": "c1mukn2leoaq511"
+  },
+  {
+    "name": "james",
+    "surname": "Doe",
+    "email": "ab@gmail.com",
+    "date of birth": "9-12-1994",
+    "avatar": "https://ui-avatars.com/api/?name=John+Doe",
+    "createdAt": "2023-02-28T13:46:31.768Z",
+    "updatedAt": "2023-02-28T13:46:31.768Z",
+    "id": "c1mukpbleoayh94"
+  },
+  {
+    "name": "Joseph",
+    "surname": "Doe",
+    "email": "hana0795@web.de",
+    "date of birth": "9-10-1999",
+    "avatar": "http://localhost:3002/img/authors/c1muldcleocfsi2.jpg",
+    "createdAt": "2023-02-28T14:27:59.114Z",
+    "updatedAt": "2023-02-28T16:28:16.979Z",
+    "id": "c1muldcleocfsi2"
+  }
+]
