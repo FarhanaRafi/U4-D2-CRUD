@@ -11,7 +11,7 @@ import {
 import cors from "cors";
 import { join } from "path";
 import createHttpError from "http-errors";
-// import filesRouter from "./api/files/index.js";
+import filesRouter from "./api/files/index.js";
 
 const server = Express();
 const port = process.env.PORT;
@@ -47,7 +47,7 @@ server.use(Express.json());
 
 server.use("/authors", authorsRouter);
 server.use("/blogPosts", blogsRouter);
-// server.use("/files", filesRouter);
+server.use("/files", filesRouter);
 
 server.use(badRequestHandler);
 server.use(unauthorizedHandler);

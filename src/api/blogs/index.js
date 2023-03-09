@@ -5,13 +5,18 @@ import fs from "fs";
 import uniqid from "uniqid";
 import createHttpError from "http-errors";
 import { checkBlogSchema, triggerBadRequest } from "./validation.js";
-import { getBlogs, writeBlogs } from "../../lib/fs-tools.js";
+import {
+  getBlogs,
+  getBlogsJSONReadableStream,
+  writeBlogs,
+} from "../../lib/fs-tools.js";
 import multer from "multer";
 // import { extname } from "path";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { getPDFReadableStream } from "../../lib/pdf-tools.js";
 import { pipeline } from "stream";
+import { Transform } from "@json2csv/node";
 
 const blogsRouter = Express.Router();
 
@@ -224,6 +229,20 @@ blogsRouter.get("/:blogId/pdf", async (req, res, next) => {
       if (err) {
         console.log(err);
       }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+blogsRouter.get("/:blogId/csv", (req, res, next) => {
+  try {
+    res.setHeader("Content-Disposition", "attachment; filename=blog.csv");
+    const source = getBlogsJSONReadableStream();
+    const transform = new Transform({ fields: ["_id", "title", "category"] });
+    const destination = res;
+    pipeline(source, transform, destination, (err) => {
+      if (err) console.log(err);
     });
   } catch (error) {
     next(error);
